@@ -13,10 +13,8 @@
       system = "x86_64-linux";
     };
 
-    # Hent din lokale Louvre-derivasjon via callPackage
     louvre = pkgs.callPackage ./derivations/louvre/default.nix {};
-    # Hent din lokale Kay-derivasjon via callPackage
-    kay    = pkgs.callPackage ./derivations/kay/default.nix {};
+    argon    = pkgs.callPackage ./derivations/argon/default.nix {};
 
   in rec {
     # Eksporter pakkene slik at du kan gjøre f.eks.
@@ -24,7 +22,7 @@
     #   nix build .#kay
     packages.x86_64-linux = {
       louvre = louvre;
-      kay    = kay;
+      argon    = argon;
     };
 
     # Sett den samme devShell-enivået for x86_64-linux.
@@ -34,7 +32,7 @@
       buildInputs = [
         # 1) Dine egne pakker for Louvre og Kay
         louvre
-        kay
+        argon
 
         # 2) Vulkan-biblioteker
         pkgs.vulkan-loader
