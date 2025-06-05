@@ -1,5 +1,5 @@
 #include <core/Compositor.h>
-#include <LLauncher.h>
+#include <Louvre/LLauncher.h>
 
 int main(void)
 {
