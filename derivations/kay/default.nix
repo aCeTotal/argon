@@ -4,16 +4,15 @@
 , meson
 , ninja
 , pkg-config
-, skia            # for Skia
-, egl             # for EGL
-, gl              # for OpenGL
-, glesv2          # for OpenGL ES 2
-, xkbcommon       # for xkbcommon
-, plutovg         # for PlutoVG
-, plutosvg        # for PlutoSVG
-, yoga            # for Yoga
-, wayland         # hvis du vil bygge eksempler som krever Wayland
-, xorgproto       # for Wayland-protokoller
+, skia             # Skia‐biblioteket
+, egl              # EGL (pkgs.egl)
+, gl               # OpenGL (pkgs.gl)
+, glesv2           # OpenGL ES 2 (pkgs.glesv2)
+, libxkbcommon     # xkbcommon‐biblioteket
+, plutovg          # PlutoVG‐biblioteket
+, plutosvg         # PlutoSVG‐biblioteket
+, wayland          # for å bygge eksempler som krever Wayland
+, xorgproto        # Wayland‐protokoller
 }:
 
 stdenv.mkDerivation rec {
@@ -21,43 +20,41 @@ stdenv.mkDerivation rec {
   version  = "1.1.1-1";
 
   src = fetchFromGitHub {
-    owner  = "aCeTotal";
-    repo   = "Kay";
-    rev    = "99d68a3";
-    hash   = "sha256-ZdV/KvYnPN4IKU6kbjDhCgcC3TdWqZbNJzDt39ZQ2x8=";
+    owner = "aCeTotal";
+    repo  = "Kay";
+    rev   = "9e303bc";            # Commit som du vil bygge
+    sha256 = "1q2w3e4r5t6y7u8i9o0pabcdefghijk1234567890lmnopqrstu";
+    # Husk å bytte ut SHA256 over med det Nix selv rapporterte da du brukte lib.fakeSha256
   };
 
-  # Verktøy for å konfigurere og bygge med Meson/Ninja:
   nativeBuildInputs = [
     meson
     ninja
     pkg-config
   ];
 
-  # Kjøre­tids­avhengigheter (til både Kay-biblioteket og evt. eksempler/Marco):
+  # Legg inn nøyaktige pkg-config-navn for egl, gl og glesv2:
   buildInputs = [
     skia
     egl
     gl
     glesv2
-    xkbcommon
+    libxkbcommon
     plutovg
     plutosvg
-    yoga
     wayland
     xorgproto
   ];
 
-  # Slå på eksempler og Marco; fjern linjene nedenfor om du ikke trenger dem:
+  # Slå på eksempler og “marco” i Meson (fjern om du ikke trenger det)
   mesonFlags = [
     "-Dbuild_examples=true"
     "-Dbuild_marco=true"
   ];
 
-  # Vi kjører Meson og Ninja manuelt i de respektive fasene:
+  # Meson må peke på roten av repo-et (der meson.build ligger)
   configurePhase = ''
-    # Opprett en egen build-dir og pek på roten av repo (der meson.build ligger)
-    mkdir build
+    mkdir -p build
     meson setup build "${src}" \
       --prefix=$out \
       ${lib.concatStringsSep " " mesonFlags}
@@ -71,15 +68,13 @@ stdenv.mkDerivation rec {
     ninja -C build install
   '';
 
-  # Hvis du ønsker eget "dev"‐output (headers og .pc), kan du beholde dette:
   outputs = [ "out" "dev" ];
 
-  # Hoved‐metadata for pakken:
   meta = {
     description = "C++ GUI toolkit powered by Skia and Yoga";
     homepage    = "https://github.com/aCeTotal/Kay";
-    license     = lib.licenses.mit;                 # Juster hvis Lisensen er annerledes
-    maintainers = [ lib.maintainers.yournick ];     # Endre til din Nixpkgs‐alias
+    license     = lib.licenses.mit;                 # Juster om lisensen er annerledes
+    maintainers = [ lib.maintainers.yournick ];     # Endre til din egen maintainer‐alias
     platforms   = lib.platforms.linux;              # Antar Linux‐only
   };
 }
