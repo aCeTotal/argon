@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-ZdV/KvYnPN4IKU6kbjDhCgcC3TdWqZbNJzDt39ZQ2x8=";
   };
 
-  sourceRoot = "${src.name}/src";
+  # Vi har fjernet sourceRoot, så Meson kjører fra roten av 'source/' der meson.build ligger.
 
   nativeBuildInputs = [
     meson
@@ -32,20 +32,21 @@ stdenv.mkDerivation rec {
     pkg-config
   ];
 
-  # Kun de Meson-avhengighetene som er nevnt i meson.build
+  # Bare de pakkene som faktisk listes i meson.build som dependencies
   buildInputs = [
-    libGL         # glesv2_dep
-    wayland       # wayland_server_dep
-    libinput      # input_dep
-    fontconfig    # fontconfig_dep
-    freetype      # freetype_dep
-    icu           # icuuc_dep
+    libGL      # glesv2_dep
+    wayland    # wayland_server_dep
+    libinput   # input_dep
+    fontconfig # fontconfig_dep
+    freetype   # freetype_dep
+    icu        # icuuc_dep
   ];
 
   configurePhase = ''
     mkdir -p build
-    meson setup build "${sourceRoot}" \
-      --prefix=$out
+    # Viktig: plasser --prefix foran posisjonelle argumenter slik at Meson vet
+    # at "build" blir build-dir og "." blir source-dir.
+    meson setup --prefix=$out build .
   '';
 
   buildPhase = ''
@@ -61,10 +62,10 @@ stdenv.mkDerivation rec {
   };
 
   meta = {
-    description = "C++ wayland compositor and Vulkan Renderer";
-    homepage = "https://github.com/aCetotal/argon";
+    description = "C++ Wayland compositor and Vulkan renderer";
+    homepage = "https://github.com/aCeTotal/argon";
     mainProgram = "argon";
-    maintainers = [ lib.maintainers.acetotal ];
+    maintainers = [ lib.maintainers.dblsaiko ];
     platforms = lib.platforms.linux;
   };
 }
