@@ -19,12 +19,10 @@ stdenv.mkDerivation rec {
 
   src = fetchFromGitHub {
     owner = "aCeTotal";
-    repo = "argon";
-    rev = "4d53f14";
-    hash = "sha256-ZdV/KvYnPN4IKU6kbjDhCgcC3TdWqZbNJzDt39ZQ2x8=";
+    repo  = "argon";
+    rev   = "fabf440996716456698d90daf8d8cf8fe21db13c";
+    hash  = "sha256-w0WtrSArsg/6UVlO4Cp5eqHVWQUZgzc6WuDcfHB81nk=";
   };
-
-  # Vi har fjernet sourceRoot, så Meson kjører fra roten av 'source/' der meson.build ligger.
 
   nativeBuildInputs = [
     meson
@@ -32,7 +30,6 @@ stdenv.mkDerivation rec {
     pkg-config
   ];
 
-  # Bare de pakkene som faktisk listes i meson.build som dependencies
   buildInputs = [
     libGL      # glesv2_dep
     wayland    # wayland_server_dep
@@ -44,8 +41,7 @@ stdenv.mkDerivation rec {
 
   configurePhase = ''
     mkdir -p build
-    # Viktig: plasser --prefix foran posisjonelle argumenter slik at Meson vet
-    # at "build" blir build-dir og "." blir source-dir.
+    # meson.build ligger i repo‐roten, så bruk “.” her
     meson setup --prefix=$out build .
   '';
 
