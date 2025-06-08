@@ -1,7 +1,7 @@
 project(
-    'Louvre',
+    'argonwm',
     'c','cpp',
-    version : run_command('cat', files('./VERSION'), check : false).stdout().strip(),
+    version : '0.0.1',
     meson_version: '>= 0.56.0',
     default_options: [
         'warning_level=3',
@@ -19,15 +19,10 @@ VERSION_BUILD = run_command('cat', '../BUILD', check : false).stdout()
 
 # -------------- CONFIGURATION --------------
 
-HEADERS_INSTALL_PATH = join_paths(get_option('prefix'), get_option('includedir'), 'Louvre')
-BACKENDS_INSTALL_PATH = join_paths(get_option('prefix'), get_option('libdir'), 'Louvre/backends')
-ASSETS_INSTALL_PATH = join_paths(get_option('prefix'), get_option('datadir'), 'Louvre/assets')
+HEADERS_INSTALL_PATH = join_paths(get_option('prefix'), get_option('includedir'), 'argon')
+BACKENDS_INSTALL_PATH = join_paths(get_option('prefix'), get_option('libdir'), 'backends')
 
 add_project_arguments([
-    '-DLOUVRE_VERSION_MAJOR=@0@'.format(VERSION_MAJOR.to_int()),
-    '-DLOUVRE_VERSION_MINOR=@0@'.format(VERSION_MINOR.to_int()),
-    '-DLOUVRE_VERSION_PATCH=@0@'.format(VERSION_PATCH.to_int()),
-    '-DLOUVRE_VERSION_BUILD=@0@'.format(VERSION_BUILD.to_int()),
     '-DLOUVRE_DEFAULT_BACKENDS_PATH="@0@"'.format(BACKENDS_INSTALL_PATH),
     '-DLOUVRE_DEFAULT_GRAPHIC_BACKEND="@0@"'.format(get_option('default_graphic_backend')),
     '-DLOUVRE_DEFAULT_INPUT_BACKEND="@0@"'.format(get_option('default_input_backend')),
@@ -193,14 +188,10 @@ if get_option('build_examples')
     fontconfig_dep = dependency('fontconfig', version: '>= 2.13.1')
     freetype_dep = dependency('freetype2', version: '>= 24.1.18')
     icuuc_dep = cpp.find_library('icuuc')
-    subdir('examples')
+    subdir('tiling')
 endif
 
 if get_option('build_tests')
     subdir('tests')
 endif
-
-# -------------- TILING / MAIN --------------
-
-subdir('tiling')
 
