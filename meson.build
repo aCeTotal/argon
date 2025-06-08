@@ -1,5 +1,5 @@
 project(
-    'argonwm',
+    'Louvre',
     'c','cpp',
     version : '0.0.1',
     meson_version: '>= 0.56.0',
@@ -19,13 +19,15 @@ VERSION_BUILD = run_command('cat', '../BUILD', check : false).stdout()
 
 # -------------- CONFIGURATION --------------
 
-HEADERS_INSTALL_PATH = join_paths(get_option('prefix'), get_option('includedir'), 'argon')
-BACKENDS_INSTALL_PATH = join_paths(get_option('prefix'), get_option('libdir'), 'backends')
+HEADERS_INSTALL_PATH = join_paths(get_option('prefix'), get_option('includedir'), 'Louvre')
+BACKENDS_INSTALL_PATH = join_paths(get_option('prefix'), get_option('libdir'), 'Louvre/backends')
+ASSETS_INSTALL_PATH = join_paths(get_option('prefix'), get_option('datadir'), 'Louvre/assets')
 
 add_project_arguments([
     '-DLOUVRE_DEFAULT_BACKENDS_PATH="@0@"'.format(BACKENDS_INSTALL_PATH),
     '-DLOUVRE_DEFAULT_GRAPHIC_BACKEND="@0@"'.format(get_option('default_graphic_backend')),
     '-DLOUVRE_DEFAULT_INPUT_BACKEND="@0@"'.format(get_option('default_input_backend')),
+    '-DLOUVRE_DEFAULT_ASSETS_PATH="@0@"'.format(ASSETS_INSTALL_PATH),
     '-Wno-missing-field-initializers'
 ], language: 'cpp')
 
@@ -189,8 +191,3 @@ if get_option('build_examples')
     icuuc_dep = cpp.find_library('icuuc')
     subdir('tiling')
 endif
-
-if get_option('build_tests')
-    subdir('tests')
-endif
-
