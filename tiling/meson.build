@@ -25,7 +25,7 @@ session_conf = configuration_data()
 session_conf.set('LOUVRE_VIEWS_PATH', join_paths(get_option('prefix'), get_option('bindir'), 'louvre-views'))
 
 configure_file(
-    input : '../common/assets/louvre.desktop.in',
+    input : 'common/assets/louvre.desktop.in',
     output : 'louvre.desktop',
     configuration : session_conf,
     install_dir : join_paths(get_option('prefix'), '/usr/local/share/wayland-sessions')
@@ -36,14 +36,14 @@ apps_conf = configuration_data()
 apps_conf.set('ASSETS_PATH', ASSETS_INSTALL_PATH)
 
 configure_file(
-    input : '../common/assets/apps.list.in',
+    input : 'common/assets/apps.list.in',
     output : 'apps.list',
     configuration : apps_conf,
     install_dir : ASSETS_INSTALL_PATH
 )
 
 # Installer bilder/ikoner
-assets = files('../common/assets/*.png')
+assets = files('common/assets/*.png')
 
 install_data(
     assets,
