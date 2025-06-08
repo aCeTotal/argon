@@ -43,7 +43,20 @@ configure_file(
 )
 
 # Installer bilder/ikoner
-assets = files('common/assets/*.png')
+assets = files(
+  'common/assets/dock_app.png',
+  'common/assets/firefox.png',
+  'common/assets/inkscape.png',
+  'common/assets/nautilus.png',
+  'common/assets/obs.png',
+  'common/assets/qtcreator.png',
+  'common/assets/terminal.png',
+  'common/assets/ui@2x.png',
+  'common/assets/vscode.png',
+  'common/assets/wallpaper.png',
+  'common/assets/weston-terminal.png',
+  'common/assets/wofi.png'
+)
 
 install_data(
     assets,
