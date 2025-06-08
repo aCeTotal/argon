@@ -1,23 +1,13 @@
 
-# Samle alle relevante kildefiler fra undermapper
+# Samle alle relevante kildefiler i denne mappen
 sources = files(
-    'main.cpp',
+    'App.cpp', 'Client.cpp', 'Compositor.cpp', 'Dock.cpp', 'DockApp.cpp', 'DockItem.cpp', 'Global.cpp', 'InputRect.cpp', 'Keyboard.cpp', 'LayerRole.cpp', 'Output.cpp', 'Pointer.cpp', 'Popup.cpp', 'Seat.cpp', 'SessionLockManager.cpp', 'Surface.cpp', 'TestView.cpp', 'Tooltip.cpp', 'Topbar.cpp', 'Toplevel.cpp', 'ToplevelButton.cpp', 'ToplevelView.cpp', 'Touch.cpp', 'UITextureView.cpp', 'Workspace.cpp', 'main.cpp'
 )
-
-# Legg til spesifikk felleskode
-common_src = files('common/TextRenderer.cpp')
-
-# Samle alle kildefiler rekursivt fra undermapper
-subdirs = ['client', 'common', 'core', 'input', 'roles', 'seat', 'ui']
-foreach dir : subdirs
-    sources += files(join_paths(dir, '*.cpp'))
-    sources += files(join_paths(dir, '*.c'))
-endforeach
 
 # Sett opp kjørbar fil
 executable(
     'louvre-views',
-    [sources, common_src],
+    sources,
     dependencies : [
         louvre_dep,
         glesv2_dep,
