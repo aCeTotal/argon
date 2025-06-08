@@ -15,7 +15,8 @@ cpp = meson.get_compiler('cpp')
 VERSION_MAJOR = meson.project_version().split('.')[0]
 VERSION_MINOR = meson.project_version().split('.')[1]
 VERSION_PATCH = meson.project_version().split('.')[2]
-VERSION_BUILD = run_command('cat', '../BUILD', check : false).stdout()
+version_build_output = run_command('cat', '../BUILD', check : false).stdout().strip()
+VERSION_BUILD = version_build_output if version_build_output != '' else '0'
 
 # -------------- CONFIGURATION --------------
 
