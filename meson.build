@@ -15,6 +15,7 @@ cpp = meson.get_compiler('cpp')
 VERSION_MAJOR = meson.project_version().split('.')[0]
 VERSION_MINOR = meson.project_version().split('.')[1]
 VERSION_PATCH = meson.project_version().split('.')[2]
+VERSION_BUILD = '1'
 
 # -------------- CONFIGURATION --------------
 
@@ -26,6 +27,7 @@ add_project_arguments([
     '-DLOUVRE_VERSION_MAJOR=@0@'.format(VERSION_MAJOR.to_int()),
     '-DLOUVRE_VERSION_MINOR=@0@'.format(VERSION_MINOR.to_int()),
     '-DLOUVRE_VERSION_PATCH=@0@'.format(VERSION_PATCH.to_int()),
+    '-DLOUVRE_VERSION_BUILD=@0@'.format(VERSION_BUILD.to_int()),
     '-DLOUVRE_DEFAULT_BACKENDS_PATH="@0@"'.format(BACKENDS_INSTALL_PATH),
     '-DLOUVRE_DEFAULT_GRAPHIC_BACKEND="@0@"'.format(get_option('default_graphic_backend')),
     '-DLOUVRE_DEFAULT_INPUT_BACKEND="@0@"'.format(get_option('default_input_backend')),
